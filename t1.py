@@ -1,13 +1,5 @@
 import random as r
 
-'''
-    Funciones:
-    1. De decimal a binario (lista: binario)
-    2. De decimal a Hexadecimal
-    3. De decimal a octal (lista: octal)
-    4. Generación del "lanzamiento de dados" aleatorio (lista: lanz_dados)
-'''
-
 #Dado un numero en decimal, retorna un numero en binario (tipo string!!)
 def binario(decimal):
     numero = []
@@ -23,8 +15,33 @@ def binario(decimal):
         
     return binario
     
+#Dado un numero en decimal, retorna un numero en hexadecimal (tipo string!!)
 def hexa(decimal):
-    pass
+    numero = []
+    hexa = ''
+    while decimal > 0:
+        sobra = decimal % 16
+        decimal //= 16
+        numero.append(str(sobra))
+    i = 1
+
+    while i<=len(numero):
+        if numero[-i] == "15":
+            numero[-i] = 'F'
+        elif numero[-i] == "14":
+            numero[-i] = 'E'
+        elif numero[-i] == "13":
+            numero[-i] = 'D'
+        elif numero[-i] == "12":
+            numero[-i] = 'C'
+        elif numero[-i] == "11":
+            numero[-i] = 'B'
+        elif numero[-i] == "10":
+            numero[-i] = 'A'
+        hexa += numero[-i]
+        i+= 1
+        
+    return hexa
 
 #Dado un numero en decimal, retorna un numero en octal (tipo string!!)
 def octal(decimal):
@@ -51,8 +68,28 @@ def lanz_dados(cantidad, tipo):
         i+=1
     return suma
 
-valor = lanz_dados(2,100) #cantidad, tipo | (1d6) = 1 dado de 6 caras
-bin = binario(valor)
-oct = octal(valor)
+def preguntar_y_separar():
+    dado = input("Dados Obtenidos: ")
+    dado = dado.split("d")
+    cantidad = dado[0]
+    tipo = dado[1]
+    valor = lanz_dados(int(cantidad), int(tipo)) 
+    if tipo == "6":
+        cambio  = binario(valor)
+    elif tipo == "20":
+        cambio =  octal(valor)
+    elif tipo == "100":
+        cambio = hexa(valor)
+    else:
+        print("Tipo de dado no compatible")
+        return
+    print("Numero obtenido: ", cambio)
 
-print("el dado arrojó ", str(valor), " en decimal, que es lo mismo que ", bin, " en decimal y ", oct, " en octal")
+
+    intento = int(input("Ingrese su respuesta: "))
+    if intento == valor:
+        print("Correcto")
+    else:
+        print("Incorrecto")
+
+preguntar_y_separar()
