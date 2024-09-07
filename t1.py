@@ -415,6 +415,8 @@ class Game:
 
     def print_menu():
         """Imprime la pantalla principal del programa"""
+
+        """Un bonito efecto de degradado progresivo Xd"""
         print(
             "\n".join(
                 [
@@ -423,6 +425,7 @@ class Game:
                 ]
             )
         )
+
         print(
             ANSI.LIGHT_GREEN,
             (f"⟨ RACHA DE {Game.streak} ⟩" if Game.streak else "").center(32),
@@ -532,11 +535,14 @@ while True:  # Para que se ejecute permanentemente
 
         """Verificación de respuesta"""
         if (decimal := lanzamiento.decimal()) == respuesta:
+            """CORRECTO
+            Se aumenta el streak, se hace un calculo no muy dedicado para aumentar la experiencia, y se imprime con animación la victoria"""
             Game.streak += 1
             last_xp = Game.xp_real()
             xp_win = 1 / len(Constantes.TITULOS) * (0.7 + r.random() * 3)
             Game.xp += xp_win
 
+            """Animación de parpadeo"""
             for i in range(10):
                 Utils.cls()
                 print(
@@ -552,6 +558,8 @@ while True:  # Para que se ejecute permanentemente
                 sleep(0.3)
                 print(ANSI.RESET)
         else:
+            """INCORRECTO.
+            Se resetea el streak"""
             Game.streak = 0
             print(ANSI.RED, ASCII.FAIL, ANSI.RESET)
             sleep(1)
@@ -560,6 +568,7 @@ while True:  # Para que se ejecute permanentemente
             print(ANSI.LIGHT_PURPLE, f"{decimal}", ANSI.RESET)
             sleep(1)
         sleep(1)
+        """Después se devuelve al menu principal"""
     except Exception as e:
         """Manejo de errores inesperados"""
         Game.error = str(e)
