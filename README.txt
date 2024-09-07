@@ -8,7 +8,6 @@ Paralelos 2: 200
 
 --------------------------
 Especificaci´on de los algoritmos y desarrollo realizado:
-El programa se separa en 5 fuciones, 3 de conversión de base y  2 que son el funcionamiento per se de la tarea.
 
 - Para pasar de decimal a binario, se usa la función "binario(decimal)", que está pensada para recibir un 
 numero decimal como parámetro. El algoritmo se basa en dividir el numero por 2 e ir guardando el resto
@@ -30,19 +29,25 @@ y el resto se cambia por la letra correspondiente, en caso de ser necesario como
 	- Si el resto es 10 se reemplaza con una A
 Los restos que vayan entre 0 y 9 quedan intactos.
 
-- La función "lanz_dados(cantidad, tipo)" recibe como parametros dos enteros, que representan la cantiadad
-de dados lanzados y el tipo de dado (n° de caras) respectivamente. La función se encarga de hacer lanzamientos
-aleatorios y reotrnar la suma de estos, todo basado en los parametros recibidos. 
+- Para pasar de cualquier base a decimal, hacemos uso de un algortimo en el cual se identifican los diferentes 'caracteres' que cada base posee (Ej: binario 2, octal 8, hexadecimal 16...) y, a partir de estos, sumamos a una variable entera el recorrido que hacemos de izquierda a derecha de la cadena de entrada con el siguiente procedimiento tomando de ejemplo la cadena de entrada en base numérica binaria "110":
+	- Identificamos el caracter actual y vemos su 'valor' decimal en una tabla que posee TODAS las unidades de las bases a utilizar en un array: [0, 1, 2, ..., 9, A, B, C, D, E, F].
+	"110"
+	 ^- Se encuentra en el índice 1, por lo que su valor es 1.
+	- Considerando el máximo valor por base, aplicamos una fórmula exponencial que toma de base al respectivo rango de valores posibles por esta.
+	FORMULA:
+		VALOR_DIGITO * RANGO_VALORES^(POS. DÍGITO - 1)
+		- Aplicando la fórmula al ejemplo "110" con el 1er caracter de izq. a der.:
+		1 * 2^2 <-- El primer 1 está en el tercer digito de derecha a izquierda.
+		^   ^------ Ya sabemos que la base binaria solo posee 2 valores posibles: 0 y 1
+		|__________ Dijimos que el 1 en sí posee el valor 1 en la base decimal.
 
-- La función "preguntar_y_separar()" es la encargada de unir todas las piezas anteriores. Inicialmente
-le pide al usuario que ingrese detalles sobre el lanzamiento (cantidad y tipo en el formato cdt), y con lo que 
-llama a la función lanz_dados para obtener la suma del lanzamiento. Posteriormente, según el tipo de dado 
-especficiado llama a la función correspondiente para hacer el cambio de base y mostrarlo luego por pantalla.
-Por último, le pide al usuario que ingrese la conversión a decimal del numero mostrado, quien recibe un mensaje de
-aceptación o error según su respuesta. 
---------------------------
-Supuestos utilizados:
-1. El usuario ingresa un solo lanzamiento por ejecución del programa
-2. El formato del lanzamiento es CdT, donde C es cantidad y T es el tipo de dato.
-	Por ejemplo: 2d6 significa que se lanzan dos dados de 6 caras, por lo que el resultado está
-	en el rando entre 2 y 12. 
+		1 * 2^2 = 4
+	- Vamos sumando los valores que nos entrega la formula digito por digito.
+		"110" entrega:
+		 ^^^-- 0 * 2^0 = 0
+		 ||___ 1 * 2^1 = 2
+		 |____ 1 * 2^2 = 4
+		
+		2 + 4 = 6
+	- ... Así lo podemos hacer para el resto de las bases.
+		
